@@ -1,0 +1,44 @@
+This is another conversion on linapple geared toward retropie.
+Changes done by Mark Ormond.
+
+Now needs SDL_image to compile.
+
+Changes are as follows.
+
+The sdl mouse cursor is disabled.
+
+The charset40.bmp, font.bmp, and splash.bmp have now been encoded in the
+main executable. So no need for these files anymore.
+
+Added the -1 swtich for mounting and running a disk in drive 1. Usage is
+
+linapple -1 /home/pi/Retropie/roms/apple2/Frogger.dsk
+
+
+
+The location for linapple.conf is /opt/retropie/configs/apple2/linapple.conf
+The location for Master.dsk is /opt/retropie/emulators/linapple/Master.dsk
+
+
+Neither of these files are required for operation, but linapple.conf is needed to change video modes, etc.
+
+
+To change location of linapple.conf edit the Registry.h file and change the line..
+
+#define REGISTRY        "/opt/retropie/configs/apple2/linapple.conf"
+
+To where ever and what ever you want to call the file.
+
+To change the location of the Master.dsk edit the Applewin.cpp file and change the line.,
+
+char *MASTER_DISK="/opt/retropie/emulators/linapple/Master.dsk";
+
+After any changes, be sure to make clean, then make and then copy your new linapple where you need it.
+
+
+Enjoy,
+dabone
+
+
+
+
