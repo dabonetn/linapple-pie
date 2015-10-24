@@ -21,7 +21,7 @@ LDLIBS += $(SDL_LIBS) $(CURL_LIBS) -lSDL_image -lz -lzip
 EXE = linapple
 INSTDIR = /usr/local/$(EXE)
 STARTUP = /usr/local/bin/$(EXE)
-DATA = ../charset40.bmp ../font.bmp ../icon.bmp ../splash.bmp ../Master.dsk ../linapple.installed.conf
+DATA = ../Master.dsk ../linapple.installed.conf
 
 .PHONY: all clean install uninstall
 
