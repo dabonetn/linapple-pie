@@ -1,3 +1,13 @@
+Linapple-pie v2b.1
+++Added searching for linapple.conf and Master.dsk in the ~/.linapple directory first, if not found look in the start directory.
+!!Fix crashes when linapple.conf and Master.dsk could not be found.
+++Added the -r arg, to autoboot from command line use this in addition to the -1 command.
+++Added -2 to mount the second drive.
+!!Moved the -b benchmark option to the same sub as the other args.
+--Figured out that the program has always been keyboard only, so disabling the mouse for framebuffer users was a no brainer.
+
+
+
 Linapple-pie
 Forked from linapple2b source.
 
