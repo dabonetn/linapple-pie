@@ -29,8 +29,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 /* Adaptation for SDL and POSIX (l) by beom beotiger, Nov-Dec 2007 */
 
 #include "stdafx.h"
+#include <strings.h>
+#include <fstream>
 //#pragma  hdrstop
-
 FILE * registry;
 
 // the following 3 functions are from PHP 5.0 with Zend engine sources
@@ -210,8 +211,18 @@ void RegSaveKeyValue(char * NKey, char * NValue)
 	fseek(tempf, 0, SEEK_SET);
 //	fclose(tempf);
 //	return;
-	registry = fopen(REGISTRY, "w+t");	// erase if been
-	while(fgets(line, BUFSIZE, tempf)) {
+                  const char* home = getenv("HOME");
+                  std::string linappleconfstr(home);
+                  linappleconfstr += "/.linapple/linapple.conf";
+                  const char * linappleconf = linappleconfstr.c_str();   
+                  ifstream ifile (linappleconf);
+                  if (ifile) { 
+                                registry = fopen(linappleconf , "w+t");	// erase if been
+                  }
+                                else  {
+	registry = fopen("linapple.conf" , "w+t");	// erase if been
+                                }
+                  while(fgets(line, BUFSIZE, tempf)) {
 		fputs(line, registry);
 //		printf("---Saving Line:%s", line);
 	}
