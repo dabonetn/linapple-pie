@@ -43,6 +43,8 @@ By Mark Ormond.
 #include <curl/curl.h>
 #include <stdlib.h>
 #include <getopt.h>
+#include <strings.h>
+#include <fstream>
 
 
 //char VERSIONSTRING[] = "xx.yy.zz.ww";
@@ -52,7 +54,9 @@ TCHAR *g_pAppTitle = TITLE_APPLE_2E_ENHANCED;
 eApple2Type	g_Apple2Type	= A2TYPE_APPLE2EEHANCED;
 
 int          opt;
-bool bBoot = false;
+bool argdisks = false;
+bool argdisks2 = false;
+bool autoboot = false;
 BOOL      behind            = 0;			// Redundant
 DWORD     cumulativecycles  = 0;			// Wraps after ~1hr 9mins
 DWORD     cyclenum          = 0;			// Used by SpkrToggle() for non-wave sound
@@ -61,7 +65,10 @@ static DWORD emulmsec_frac  = 0;
 bool      g_bFullSpeed      = false;
 bool hddenabled = false;
 static bool g_uMouseInSlot4 = false;	// not any mouse in slot4??--bb
-char *MASTER_DISK="/opt/retropie/emulators/linapple/Master.dsk";
+//char *MASTER_DISK="/opt/retropie/emulators/linapple/Master.dsk";
+char *Disk1="blank.dsk";
+char *Disk2="blank.dsk";
+
 // Win32
 //HINSTANCE g_hInstance          = (HINSTANCE)0;
 
@@ -488,7 +495,7 @@ void LoadConfiguration ()
 	  user_ev.user.code = 1;	//restart?
 	  SDL_PushEvent(&user_ev);
   }
-if(bBoot) {
+if(autoboot) {
          // autostart
          SDL_Event user_ev;
          user_ev.type = SDL_USEREVENT;
@@ -497,7 +504,7 @@ if(bBoot) {
   }
   dwTmp = 0;
   LOAD(TEXT("Slot 6 Autoload") ,&dwTmp);	// load autoinsert for Slot 6 flag
-  if(dwTmp &&!bBoot) {
+  if(dwTmp &&!autoboot) {
   // Load floppy disk images and insert it automatically in slot 6 drive 1 and 2
 	  if(RegLoadString(TEXT("Configuration"), TEXT(REGVALUE_DISK_IMAGE1), 1, &szHDFilename, MAX_PATH))
 	  {
@@ -512,11 +519,32 @@ if(bBoot) {
 		  szHDFilename = NULL;
 	  }
   }
-  else {
+  else {        
 
-	 DoDiskInsert(0, MASTER_DISK);
-  }
-
+        if (argdisks)  { 
+                        DoDiskInsert(0, Disk1);
+                   }
+        else
+        {
+      
+         const char* home = getenv("HOME");
+                  std::string MASTER_DISKstr(home);
+                  MASTER_DISKstr += "/.linapple/Master.dsk";
+                  const char * MasterDiskLocation =  MASTER_DISKstr.c_str();
+                  ifstream ifile2 (MasterDiskLocation);
+                   
+                   if (ifile2) { 
+                               char *MasterDisk= new char[MASTER_DISKstr.length() + 1];
+                               strcpy(MasterDisk, MASTER_DISKstr.c_str()); 
+                               DoDiskInsert(0, MasterDisk);
+                                    }
+                                else  {
+                                char *MasterDisk = "Master.dsk";
+                                DoDiskInsert(0, MasterDisk);
+                                }
+             }                  
+        if (argdisks2)  DoDiskInsert(1, Disk2);
+  }           
   // Load hard disk images and insert it automatically in slot 7
   if(RegLoadString(TEXT("Configuration"), TEXT(REGVALUE_HDD_IMAGE1), 1, &szHDFilename, MAX_PATH))
   {
@@ -754,27 +782,54 @@ int main(int argc, char * lpCmdLine[])
 //	bool bSetFullScreen = false;
 //	bool bBoot = false;
 
-	registry = fopen(REGISTRY, "a+t");	// open conf file (linapple.conf by default)
+//     
+// Find Home Directory and assign linapple.conf to ~/.linapple/linapple.conf
+// if not found set default name in current directory    
+                  const char* home = getenv("HOME");
+                  std::string linappleconfstr(home);
+                  linappleconfstr += "/.linapple/linapple.conf";
+                  const char * linappleconf = linappleconfstr.c_str();
+                  ifstream ifile (linappleconf);
+                  if (ifile) { 
+                                registry = fopen(linappleconf , "a+t");	// open conf file (linapple.conf by default)
+                  }
+                                else  {
+	registry = fopen("linapple.conf" , "a+t");	// open conf file (linapple.conf by default)
+                                        }
+
+
+                  
 //	spMono = fopen("speakersmono.pcm","wb");
 //	spStereo = fopen("speakersstereo.pcm","wb");
 	
 //	LPSTR szImageName_drive1 = NULL; // file names for images of drive1 and drive2
 //	LPSTR szImageName_drive2 = NULL;
 
-
-	bool bBenchMark = (argc > 1 &&
-		!strcmp(lpCmdLine[1],"-b"));	// if we should start benchmark (-b in command line string)
+                  bool bBenchMark = false;
+//	bool bBenchMark = (argc > 1 &&
+//		!strcmp(lpCmdLine[1],"-b"));	// if we should start benchmark (-b in command line string)
  
- while ((opt = getopt (argc, lpCmdLine, "1:")) != -1)
-      {
-               switch (opt)
+                while ((opt = getopt (argc, lpCmdLine, "1:2:rb")) != -1)
+                {
+                switch (opt)
                        {
-                               case '1':
-                                       MASTER_DISK = optarg;
-                                       bBoot = true;
-                break;
-						}
-	   }
+                    case '1':
+                        Disk1 = optarg;
+                        argdisks = true;
+                        break;
+                    case '2':
+                        Disk2 = optarg;
+                        argdisks2 = true;
+                        break;
+                    case 'r':
+                    autoboot = true;
+                    break;
+                   case 'b':
+                       bBenchMark = true;
+                       printf("benchmark");
+                       break;
+	    }
+                }
 // I will remake this using getopt and getoptlong!
 /*
 	while(*lpCmdLine)
@@ -1043,7 +1098,7 @@ int main(int argc, char * lpCmdLine[])
 	}
 
 	RiffFinishWriteFile();
-	fclose(registry);		//close conf file (linapple.conf by default)
+	fclose(registry); 		//close conf file (linapple.conf by default)
 //	fclose(spMono);
 //	fclose(spStereo);
 	
