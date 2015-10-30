@@ -57,6 +57,7 @@ int          opt;
 bool argdisks = false;
 bool argdisks2 = false;
 bool autoboot = false;
+bool fullscreenboot = false;
 BOOL      behind            = 0;			// Redundant
 DWORD     cumulativecycles  = 0;			// Wraps after ~1hr 9mins
 DWORD     cyclenum          = 0;			// Used by SpkrToggle() for non-wave sound
@@ -424,13 +425,31 @@ void LoadConfiguration ()
   switch (g_Apple2Type)
   {
 	  case A2TYPE_APPLE2:		g_pAppTitle = TITLE_APPLE_2; break;
-	  case A2TYPE_APPLE2PLUS:	g_pAppTitle = TITLE_APPLE_2_PLUS; break;
+	  case A2TYPE_APPLE2PLUS:                       g_pAppTitle = TITLE_APPLE_2_PLUS; break;
 	  case A2TYPE_APPLE2E:		g_pAppTitle = TITLE_APPLE_2E; break;
 	  case A2TYPE_APPLE2EEHANCED:	g_pAppTitle = TITLE_APPLE_2E_ENHANCED; break;
   }
-
+// Load Joystick values 
+  joytype[0] = 2;
+  joytype[1] = 0;
   LOAD(TEXT("Joystick 0"),&joytype[0]);
   LOAD(TEXT("Joystick 1"),&joytype[1]);
+  LOAD(TEXT("Joy0Index"),&joy1index);
+  LOAD(TEXT("Joy1Index"),&joy2index);
+    
+  LOAD(TEXT("Joy0Button1"),&joy1button1);
+  LOAD(TEXT("Joy0Button2"),&joy1button2);
+  LOAD(TEXT("Joy1Button1"),&joy2button1);
+  
+  LOAD(TEXT("Joy0Axis0"),&joy1axis0);
+  LOAD(TEXT("Joy0Axis1"),&joy1axis1);
+  LOAD(TEXT("Joy1Axis0"),&joy2axis0);
+  LOAD(TEXT("Joy1Axis1"),&joy2axis1);
+  
+  
+  if (joytype[0]==1 ) printf ("Joystick 1 Index # = %i, Name = %s \nButton 1 = %i, Button 2 = %i \nAxis 0 = %i,Axis 1 = %i\n",joy1index,SDL_JoystickName(joy1index),joy1button1, joy1button2,joy1axis0,joy1axis1);   
+  if (joytype[1]==1 )printf ("Joystick 2 Index # = %i, Name = %s \nButton 1 = %i \nAxis 0 = %i,Axis 1 = %i\n",joy2index,SDL_JoystickName(joy2index),joy2button1,joy2axis0,joy2axis1);
+  
   LOAD(TEXT("Sound Emulation")   ,&soundtype);
 
   DWORD dwSerialPort;
@@ -448,6 +467,8 @@ void LoadConfiguration ()
   LOAD(TEXT("Fullscreen") ,&dwTmp);	// load fullscreen flag
   fullscreen = (BOOL) dwTmp;
   dwTmp = 1;
+  if (fullscreenboot) fullscreen = true;
+  
   LOAD(TEXT(REGVALUE_SHOW_LEDS) ,&dwTmp);	// load Show Leds flag
   g_ShowLeds = (BOOL) dwTmp;
 
@@ -488,20 +509,16 @@ void LoadConfiguration ()
 
   dwTmp = 0;
   LOAD(TEXT("Boot at Startup") ,&dwTmp);	//
-  if(dwTmp) {
+  if ((dwTmp) || (autoboot))
+  
+  {
 	  // autostart
 	  SDL_Event user_ev;
 	  user_ev.type = SDL_USEREVENT;
 	  user_ev.user.code = 1;	//restart?
 	  SDL_PushEvent(&user_ev);
   }
-if(autoboot) {
-         // autostart
-         SDL_Event user_ev;
-         user_ev.type = SDL_USEREVENT;
-         user_ev.user.code = 1;        //restart?
-         SDL_PushEvent(&user_ev);
-  }
+  
   dwTmp = 0;
   LOAD(TEXT("Slot 6 Autoload") ,&dwTmp);	// load autoinsert for Slot 6 flag
   if(dwTmp &&!autoboot) {
@@ -809,7 +826,7 @@ int main(int argc, char * lpCmdLine[])
 //	bool bBenchMark = (argc > 1 &&
 //		!strcmp(lpCmdLine[1],"-b"));	// if we should start benchmark (-b in command line string)
  
-                while ((opt = getopt (argc, lpCmdLine, "1:2:rb")) != -1)
+                while ((opt = getopt (argc, lpCmdLine, "1:2:rbhf")) != -1)
                 {
                 switch (opt)
                        {
@@ -824,10 +841,17 @@ int main(int argc, char * lpCmdLine[])
                     case 'r':
                     autoboot = true;
                     break;
-                   case 'b':
+                    case 'b':
                        bBenchMark = true;
                        printf("benchmark");
                        break;
+                    case 'h':
+                       printf("Linapple command options..\n\n -h Show this help message\n -1 Mount disk image in first drive\n -2 Mount disk image in second drive\n -r Auto start emulation\n -b Benchmark and quit\n\n");
+	     return 0;
+                       break;
+                    case 'f':
+                        fullscreenboot =true;
+                        break;
 	    }
                 }
 // I will remake this using getopt and getoptlong!
