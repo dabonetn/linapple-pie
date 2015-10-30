@@ -4,6 +4,19 @@ enum JOYNUM {JN_JOYSTICK0=0, JN_JOYSTICK1};
 
 extern DWORD      joytype[2];
 
+extern DWORD    joy1index;
+extern DWORD    joy2index;
+extern DWORD    joy1button1;
+extern DWORD    joy1button2;
+extern DWORD    joy2button1;
+extern DWORD    joy1axis0;
+extern DWORD    joy1axis1;
+extern DWORD    joy2axis0;
+extern DWORD    joy2axis1;
+
+
+
+
 void    JoyInitialize ();
 void	JoyShutDown();
 
