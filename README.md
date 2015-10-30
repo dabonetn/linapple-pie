@@ -3,15 +3,8 @@ Port of linapple2b optimized for front end usage.
 This is a conversion of linapple geared toward frontend usage.
 Changes done by Mark Ormond.
 
-Supports mounting and running disks from the command line.
-
-usage is
-
-linapple -r -1 diskimage.dsk
-
-
-
-Now needs SDL_image to compile.
+Supports mounting and running disks from the command line, and remapping joystick.
+See README-linapple-pie for changes
 
 
 Visit the original linapple page at
