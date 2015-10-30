@@ -20,9 +20,7 @@ Support for the following command line switches.
 It now looks for linapple.conf and Master.dsk in the ~/.linapple directory.
 If not found it looks in the start directory.
 
-Neither of these files are required for operation, but linapple.conf is needed to change video modes, and define joysticks.
-
-To customize the joystick config, using the following options in linapple.conf
+Neither of these files are required for operation, but linapple.conf is needed to change video modes, define joysticks, and etc.
 
 For Joysticks you can define which Joystick index number, axis number, and buttons.
 
