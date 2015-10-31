@@ -1,6 +1,6 @@
 # linapple-pie
 Port of linapple2b optimized for front end usage.
-This is a conversion of linapple geared toward frontend usage.
+
 Changes done by Mark Ormond.
 
 Supports mounting and running disks from the command line, and remapping joystick.
