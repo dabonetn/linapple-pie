@@ -488,7 +488,7 @@ void FrameShowHelpScreen(int sx, int sy) // sx, sy - sizes of current window (sc
 
    const char * HelpStrings[] = {
 	   "Welcome to LinApple - Apple][ emulator for Linux!",
-    	   "Conf file is linapple.conf in current directory by default",
+    	   "Conf file is linapple.conf in ~/.linapple directory by default",
     	   "Hugest archive of Apple][ stuff you can find at ftp.apple.asimov.net",
     	   " F1 - This help",
     	   " F2 - Cold reset, Shift+F2 - Reload conf file and restart",
