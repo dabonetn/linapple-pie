@@ -13,7 +13,11 @@ extern DWORD    joy1axis0;
 extern DWORD    joy1axis1;
 extern DWORD    joy2axis0;
 extern DWORD    joy2axis1;
-
+extern DWORD    joyexitenable;
+extern DWORD    joyexitbutton0;
+extern DWORD    joyexitbutton1;
+extern bool           joyquitevent;
+void CheckJoyExit(); 
 
 
 
