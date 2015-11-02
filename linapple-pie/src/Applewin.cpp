@@ -58,6 +58,7 @@ bool argdisks = false;
 bool argdisks2 = false;
 bool autoboot = false;
 bool fullscreenboot = false;
+bool disablecursor = false;
 BOOL      behind            = 0;			// Redundant
 DWORD     cumulativecycles  = 0;			// Wraps after ~1hr 9mins
 DWORD     cyclenum          = 0;			// Used by SpkrToggle() for non-wave sound
@@ -492,9 +493,13 @@ void LoadConfiguration ()
 	
   LOAD(TEXT("Fullscreen") ,&dwTmp);	// load fullscreen flag
   fullscreen = (BOOL) dwTmp;
-  dwTmp = 1;
   if (fullscreenboot) fullscreen = true;
   
+  LOAD(TEXT("DisableCursor") ,&dwTmp);	// load Disable Cursor Flag
+  disablecursor = (BOOL) dwTmp;
+  
+  
+  dwTmp = 1;
   LOAD(TEXT(REGVALUE_SHOW_LEDS) ,&dwTmp);	// load Show Leds flag
   g_ShowLeds = (BOOL) dwTmp;
 
@@ -1089,7 +1094,7 @@ int main(int argc, char * lpCmdLine[])
 
 		JoyReset();
 		SetUsingCursor(0);
-		SDL_ShowCursor(SDL_DISABLE);
+		if (disablecursor) SDL_ShowCursor(SDL_DISABLE);
 
 		// trying fullscreen
 		if (!fullscreen) SetNormalMode();
