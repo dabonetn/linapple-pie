@@ -349,6 +349,29 @@ void EnterMessageLoop ()
 				ContinueExecution();
 				if (g_nAppMode != MODE_DEBUG)
 				{
+                                                                                        if (joyexitenable) 
+                                                                                                {
+                                                                                                        CheckJoyExit();
+                                                                                                        if  (joyquitevent) { 
+                                                                                                                   if(g_fh)
+                                                                                                                                {
+                                                                                                                                        fprintf(g_fh,"*** Logging ended\n\n");
+                                                                                                                                        fclose(g_fh);
+                                                                                                                                }
+
+                                                                                                                RiffFinishWriteFile();
+                                                                                                                fclose(registry); 		//close conf file (linapple.conf by default)
+                                                                                                                SDL_Quit();
+                                                                                                                 // CURL routines
+                                                                                                                curl_easy_cleanup(g_curl);
+                                                                                                                curl_global_cleanup();
+                                                                                                                 //
+                                                                                                                printf("Linapple: successfully exited!\n");
+                                                                                                                std::_Exit(0);
+                                                                                                                                        }
+                                                               
+                                                                                                } 
+                                    
 					if (g_bFullSpeed)
 						ContinueExecution();
 				}
@@ -445,6 +468,9 @@ void LoadConfiguration ()
   LOAD(TEXT("Joy0Axis1"),&joy1axis1);
   LOAD(TEXT("Joy1Axis0"),&joy2axis0);
   LOAD(TEXT("Joy1Axis1"),&joy2axis1);
+  LOAD(TEXT("JoyExitEnable"),&joyexitenable);
+  LOAD(TEXT("JoyExitButton0"),&joyexitbutton0);
+  LOAD(TEXT("JoyExitButton1"),&joyexitbutton1);
   
   
   if (joytype[0]==1 ) printf ("Joystick 1 Index # = %i, Name = %s \nButton 1 = %i, Button 2 = %i \nAxis 0 = %i,Axis 1 = %i\n",joy1index,SDL_JoystickName(joy1index),joy1button1, joy1button2,joy1axis0,joy1axis1);   
