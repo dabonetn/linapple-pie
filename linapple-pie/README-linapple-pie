@@ -3,6 +3,12 @@ Now more generic for any frontend.
 
 Changes done by Mark Ormond.
 
+
+New changes 11/02/15
+
+Added the ability to exit using 2 joystick buttons together. See linapple.conf for details.
+
+
 -Changes-
 
 Now needs SDL_image to compile.
