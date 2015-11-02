@@ -122,17 +122,27 @@ DWORD    joy1axis0 = 0;
 DWORD    joy1axis1 = 1;
 DWORD    joy2axis0 = 0;
 DWORD    joy2axis1 = 1;
-
+DWORD    joyexitenable = 0;
+DWORD    joyexitbutton0 = 8;
+DWORD    joyexitbutton1 = 9;
+bool           joyquitevent = 0; 
 
 SDL_Joystick *joy1 = NULL;
 SDL_Joystick *joy2 = NULL;
 
 //===========================================================================
+
+void CheckJoyExit()
+{    
+    SDL_JoystickUpdate(); // update all joysticks states
+    if (SDL_JoystickGetButton(joy1,joyexitbutton0) && SDL_JoystickGetButton(joy1,joyexitbutton1))   joyquitevent = true;
+    else joyquitevent = false;     
+} 
+
+
+
 void CheckJoystick0 ()
 {
- 
-  
-  
   if(!joy1) return; // if no joystick#1 then everything will be useless
   static DWORD lastcheck = 0;
   DWORD currtime = GetTickCount();
