@@ -354,7 +354,7 @@ void EnterMessageLoop ()
                         {
                             CheckJoyExit();
                             if  (joyquitevent) 
-								{ 
+				{ 
                                 if(g_fh)
                                     {
                                     fprintf(g_fh,"*** Logging ended\n\n");
