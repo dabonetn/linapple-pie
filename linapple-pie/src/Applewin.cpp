@@ -350,28 +350,27 @@ void EnterMessageLoop ()
 				ContinueExecution();
 				if (g_nAppMode != MODE_DEBUG)
 				{
-                                                                                        if (joyexitenable) 
-                                                                                                {
-                                                                                                        CheckJoyExit();
-                                                                                                        if  (joyquitevent) { 
-                                                                                                                   if(g_fh)
-                                                                                                                                {
-                                                                                                                                        fprintf(g_fh,"*** Logging ended\n\n");
-                                                                                                                                        fclose(g_fh);
-                                                                                                                                }
+                    if (joyexitenable) 
+                        {
+                            CheckJoyExit();
+                            if  (joyquitevent) 
+								{ 
+                                if(g_fh)
+                                    {
+                                    fprintf(g_fh,"*** Logging ended\n\n");
+                                    fclose(g_fh);
+                                    }
 
-                                                                                                                RiffFinishWriteFile();
-                                                                                                                fclose(registry); 		//close conf file (linapple.conf by default)
-                                                                                                                SDL_Quit();
-                                                                                                                 // CURL routines
-                                                                                                                curl_easy_cleanup(g_curl);
-                                                                                                                curl_global_cleanup();
-                                                                                                                 //
-                                                                                                                printf("Linapple: successfully exited!\n");
-                                                                                                                std::_Exit(0);
-                                                                                                                                        }
-                                                               
-                                                                                                } 
+                                RiffFinishWriteFile();
+                                fclose(registry); 		//close conf file (linapple.conf by default)
+                                SDL_Quit();
+                                 // CURL routines
+                                curl_easy_cleanup(g_curl);
+                                curl_global_cleanup();
+                                printf("Linapple: successfully exited!\n");
+                                std::_Exit(0);
+                                }
+                        } 
                                     
 					if (g_bFullSpeed)
 						ContinueExecution();
