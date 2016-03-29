@@ -3,6 +3,14 @@ Now more generic for any frontend.
 
 Changes done by Mark Ormond.
 
+New changes 03/28/16
+
+Added install scripts for Retropie
+
+use retropie-install-from-source.sh to compile from source and install
+or use retropie-install.sh to skip the compile and install the binary (This is tested on the pi2/pi3 only!.)
+
+Merged changes by LaurentMarchelli for correct exit using joystick buttons. (THANK YOU!)
 
 New changes 11/02/15
 
