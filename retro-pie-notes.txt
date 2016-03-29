@@ -1,0 +1,35 @@
+Ok, all should be installed, but before you can actually use disk images, you need to edit the /etc/emulationstation/es_systems.cfg file.
+
+The command is.
+
+sudo nano /etc/emulationstation/es_systems.cfg
+
+
+
+Change the apple2 section from this..
+
+  <system>
+    <name>apple2</name>
+    <fullname>Apple II</fullname>
+    <path>/home/pi/RetroPie/roms/apple2</path>
+    <extension>.sh .SH</extension>
+    <command>/opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ apple2 %ROM%</command>
+    <platform>apple2</platform>
+    <theme>apple2</theme>
+    <directlaunch/>
+  </system>
+
+
+to this..
+
+  <system>
+    <name>apple2</name>
+    <fullname>Apple II</fullname>
+    <path>/home/pi/RetroPie/roms/apple2</path>
+    <extension>.dsk .nib .po .DSK .NIB .PO</extension>
+    <command>/opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ apple2 %ROM%</command>
+    <platform>apple2</platform>
+    <theme>apple2</theme>
+    <directlaunch/>
+  </system>
+
