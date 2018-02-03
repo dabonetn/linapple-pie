@@ -26,7 +26,7 @@ to this..
     <name>apple2</name>
     <fullname>Apple II</fullname>
     <path>/home/pi/RetroPie/roms/apple2</path>
-    <extension>.dsk .nib .po .DSK .NIB .PO</extension>
+    <extension>.dsk .nib .po .DSK .NIB .PO .do .DO</extension>
     <command>/opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ apple2 %ROM%</command>
     <platform>apple2</platform>
     <theme>apple2</theme>
