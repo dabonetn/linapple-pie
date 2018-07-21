@@ -5,17 +5,18 @@ Linapple - crossplatfom emulator of Apple ][ (Apple2, Apple 2e) series computer 
 You need SDL, cURL, zlib and libzip libraries development versions with -dev or -devel suffixes.
 
 For Debian/Ubuntu their names are:
-libsdl1.2-dev 	- Simple Direct Media crossplatform library for video,audio, events etc.
-libcurl4		- openssl-dev -  cURL net functions
-zlib1g-dev 		- access .gz files
-libzip-dev 		- access .zip files
+libsdl1.2-dev           - Simple Direct Media crossplatform library for video, audio, events, etc.
+libsdl-image1.2-dev     - Image loading library for Simple DirectMedia Layer 1.2, development files
+libcurl4-openssl-dev    - openssl-dev -  cURL net functions
+zlib1g-dev              - access .gz files
+libzip-dev              - access .zip files
 
 All these libraries are available for free around the world.
 
 For example for Debian/Ubuntu to install:
-$ sudo apt-get install libsdl1.2-dev libcurl4-openssl-dev zlib1g-dev libzip-dev
+$ sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libcurl4-openssl-dev zlib1g-dev libzip-dev
 
-After being SDL, zlib, cURL and libzip installed you will be able to compile linapple from sources:
+After installing SDL, zlib, cURL, and libzip, you will be able to compile linapple from sources:
 
 Untar the package (in .bz2 format):
 $ tar xjf linapple_src-2b.tar.bz2
@@ -48,12 +49,12 @@ Press F2 (or F3 before to choose some disk image in drive 1), and go to work.
 Note: linapple needs some files in its current working directory for proper working.
 
 These files are:
-splash.bmp 			- splash screen
-charset40.bmp		- charset for Apple][ (Apple 2e, etc.) text modes.
-font.bmp			- font for Help screen and Disk Select screens.
-icon.bmp			- nice icon, logo of Apple][ computer.
-linapple.conf		- configuration file.
-Master.dsk - disk image with Applesoft(tm) DOS 3.3 inside. See Apple license (on apple.com) for details.
+splash.bmp              - splash screen
+charset40.bmp           - charset for Apple][ (Apple 2e, etc.) text modes.
+font.bmp                - font for Help screen and Disk Select screens.
+icon.bmp                - nice icon, logo of Apple][ computer.
+linapple.conf           - configuration file.
+Master.dsk              - disk image with Applesoft(tm) DOS 3.3 inside. See Apple license (on apple.com) for details.
 
 Essential are font.bmp and charset40.bmp, others can be omitted peacefully.
 
